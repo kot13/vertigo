@@ -1,6 +1,14 @@
 *.prof
 vertigo
+
+# dependencies
 /vendor
+
+# generated code
+/client
+/cmd
+/models
+/restapi
 
 # idea project files
 .idea

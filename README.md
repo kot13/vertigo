@@ -33,3 +33,8 @@ $ make run
 ```
 $ make docs
 ```
+
+## Testing
+```
+$ make test
+```

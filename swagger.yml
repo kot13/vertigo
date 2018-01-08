@@ -29,7 +29,6 @@ paths:
       parameters:
         - in: query
           name: query
-          required: true
           type: string
         - name: status
           description: the status to filter by
@@ -41,7 +40,7 @@ paths:
             type: string
             enum:
               - active
-              - disable
+              - disabled
               - deleted
         - $ref: '#/parameters/pageSize'
         - $ref: '#/parameters/pageNumber'
@@ -57,6 +56,15 @@ paths:
           description: Validation error
           schema:
             $ref: '#/definitions/ValidationError'
+  /health-check:
+    get:
+      summary: Health check
+      description: Health check
+      responses:
+        '200':
+          description: Get health check info
+          schema:
+            $ref: '#/definitions/HealthCheck'
 parameters:
   pageSize:
     name: pageSize
@@ -98,11 +106,33 @@ definitions:
           field:
             description: an optional field name to which this validation error applies
             type: string
+  HealthCheck:
+    title: HealthCheck
+    type: object
+    properties:
+      status:
+        title: Status of work service
+        type: string
+        enum:
+          - ok
+          - fail
+      buildTime:
+        title: BuildTime is a time label of the moment when the binary was built
+        type: string
+      commit:
+        title: Commit is a last commit hash at the moment when the binary was built
+        type: string
+      release:
+        title: Release is a semantic version of current build
+        type: string
+      branch:
+        title: Branch is a branch from which the binary was built
+        type: string
   AdvertCard:
     title: A card for at advert
     type: object
     properties:
-      advertId:
+      id:
         type: integer
       title:
         title: The title of the advert.
@@ -126,5 +156,5 @@ definitions:
         type: string
         enum:
           - active
-          - disable
+          - disabled
           - deleted

@@ -8,11 +8,11 @@
 * Dependency management
 * Docker
 * Swagger
+* Graceful shutdown
+* Tests
 * Docs [redoc](https://github.com/Rebilly/ReDoc)
 
 ## TO-DO:
-* Tests
-* Graceful shutdown
 * K8s?
 * Gitlab CI/CD?
 * Prometheus?

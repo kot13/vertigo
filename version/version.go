@@ -7,4 +7,6 @@ var (
 	Commit = "unset"
 	// Release is a semantic version of current build
 	Release = "unset"
+	// Branch is a branch from which the binary was built
+	Branch = "unset"
 )

@@ -6,6 +6,7 @@ LOG_LEVEL?=debug
 RELEASE?=0.0.1
 COMMIT?=$(shell git rev-parse --short HEAD)
 BUILD_TIME?=$(shell date -u '+%Y-%m-%d_%H:%M:%S')
+BRANCH:=$(shell git branch | sed -n -e 's/^\* \(.*\)/\1/p')
 
 PROJECT?=github.com/kot13/vertigo
 
@@ -14,7 +15,7 @@ GOARCH?=amd64
 
 SWAGGER_SPEC?=./swagger.yml
 
-LDFLAGS?=-ldflags "-s -w -X ${PROJECT}/version.Release=${RELEASE} -X ${PROJECT}/version.Commit=${COMMIT} -X ${PROJECT}/version.BuildTime=${BUILD_TIME}"
+LDFLAGS?=-ldflags "-s -w -X ${PROJECT}/version.Release=${RELEASE} -X ${PROJECT}/version.Commit=${COMMIT} -X ${PROJECT}/version.BuildTime=${BUILD_TIME} -X ${PROJECT}/version.Branch=${BRANCH}"
 
 clean:
 	rm -f ${APP}
@@ -23,23 +24,32 @@ dep:
 	dep ensure
 	
 gen: 
+	swagger generate server -A ${APP} -f ${SWAGGER_SPEC} --exclude-main
 	swagger generate client -A ${APP} -f ${SWAGGER_SPEC}
-	swagger generate server -A ${APP} -f ${SWAGGER_SPEC}
-
-build: clean gen dep
+	
+compile: 
 	CGO_ENABLED=0 GOOS=${GOOS} GOARCH=${GOARCH} go build ${LDFLAGS} -o ${APP}
+	
+
+build: clean gen dep compile
 		
 container: build
 	docker build -t $(APP):$(RELEASE) .
 
 run: container
-	docker stop $(APP):$(RELEASE) || true && docker rm $(APP):$(RELEASE) || true
+	docker stop ${APP} || true && docker rm ${APP} || true
 	docker run --name ${APP} -p ${PORT}:${PORT} --rm \
 		-e "PORT=${PORT}" \
 		$(APP):$(RELEASE)
 
-test:
-	go test -v -race ./...
+rund: container
+	docker stop ${APP} || true && docker rm ${APP} || true
+	docker run -d --name ${APP} -p ${PORT}:${PORT} --rm \
+		-e "PORT=${PORT}" \
+		$(APP):$(RELEASE)
+
+test: rund
+	PORT=${PORT} go test -v -race ./e2e/...
 	
-docs: 
+docs:
 	swagger serve -F redoc ./swagger.yml

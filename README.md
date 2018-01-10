@@ -1,21 +1,13 @@
-# All best practice in one API
+# Advert service for vertical classified
 
-* 12 factor
-* Logger
-* Makefile
-* Version
-* Health-check
-* Dependency management
-* Docker
+## Features:
+* Completely ready for use
+* Specification first
+* Code generation for boilerplate code
+* Auto-migration for DB
+* CQRS + ES
 * Swagger
-* Graceful shutdown
-* Tests
 * Docs [redoc](https://github.com/Rebilly/ReDoc)
-
-## TO-DO:
-* K8s?
-* Gitlab CI/CD?
-* Prometheus?
 
 ## Dependency
 * [Docker](https://www.docker.com/)
@@ -24,7 +16,7 @@
 * [Go-swagger](https://github.com/go-swagger/go-swagger)
 
 ## Setup
-After install all dependencies run command:
+After install all dependencies and update `swagger.yml` just run command:
 ```
 $ make run
 ```
@@ -38,3 +30,6 @@ $ make docs
 ```
 $ make test
 ```
+
+## Architecture
+![architecture](https://raw.githubusercontent.com/kot13/vertigo/true-purpose/static/architecture.png)

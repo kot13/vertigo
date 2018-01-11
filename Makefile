@@ -13,7 +13,8 @@ PROJECT?=github.com/kot13/vertigo
 GOOS?=linux
 GOARCH?=amd64
 
-SWAGGER_SPEC?=./swagger.yml
+BASE_SWAGGER_SPEC?=./swagger/base.yml
+SWAGGER_SPEC?=./swagger/swagger.json
 
 LDFLAGS?=-ldflags "-s -w -X ${PROJECT}/version.Release=${RELEASE} -X ${PROJECT}/version.Commit=${COMMIT} -X ${PROJECT}/version.BuildTime=${BUILD_TIME} -X ${PROJECT}/version.Branch=${BRANCH}"
 
@@ -23,7 +24,8 @@ clean:
 dep:
 	dep ensure
 	
-gen: 
+gen:
+	swagger flatten ${BASE_SWAGGER_SPEC} -o ${SWAGGER_SPEC}
 	swagger generate server -A ${APP} -f ${SWAGGER_SPEC} --exclude-main
 	swagger generate client -A ${APP} -f ${SWAGGER_SPEC}
 	
@@ -52,4 +54,4 @@ test: rund
 	PORT=${PORT} go test -v -race ./e2e/...
 	
 docs:
-	swagger serve -F redoc ./swagger.yml
+	swagger serve -F redoc ${SWAGGER_SPEC}

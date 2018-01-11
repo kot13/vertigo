@@ -1,0 +1,29 @@
+title: A card for at advert
+type: object
+properties:
+  id:
+    type: integer
+  title:
+    title: The title of the advert.
+    description: |
+      The title for a advert, this needs to be at least 5 chars long.
+      Titles don't allow any formatting, besides emoji.
+    type: string
+    minLength: 5
+    maxLength: 150
+  price:
+    title: The price of the advert.
+    type: integer
+    format: int32
+    minimum: 1
+    maximum: 100000000
+  status:
+    title: the status of the issue
+    description: |
+      There are 3 possible values for a status.
+      Ignored means as much as accepted but not now, perhaps later.
+    type: string
+    enum:
+      - active
+      - disabled
+      - deleted

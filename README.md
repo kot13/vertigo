@@ -16,7 +16,14 @@
 * [Go-swagger](https://github.com/go-swagger/go-swagger)
 
 ## Setup
-After install all dependencies and update `swagger.yml` just run command:
+After install all dependencies, follow these simple steps: 
+1. Update specs in `./swagger`
+2. Update config for connect to DB 
+3. Create DB scheme:
+```
+$ make migrateDB
+```
+3. Start app:
 ```
 $ make run
 ```

@@ -1,14 +1,14 @@
 package handlers
 
 import (
-	middleware "github.com/go-openapi/runtime/middleware"
+	"github.com/go-openapi/runtime/middleware"
 	"github.com/kot13/vertigo/models"
 	"github.com/kot13/vertigo/restapi/operations"
 )
 
-func GetAdverts(params operations.GetAdvertParams) middleware.Responder {
-	payload := []*models.AdvertCard{
-		&models.AdvertCard{
+func GetAdverts(_ operations.GetAdvertParams) middleware.Responder {
+	payload := []*models.Advert{
+		{
 			ID:     1,
 			Title:  "dummy advert",
 			Status: "active",

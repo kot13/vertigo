@@ -27,11 +27,8 @@ paths:
       summary: Lists the adverts
       description: Get adverts
       parameters:
-        - in: query
-          name: query
-          type: string
         - name: status
-          description: the status to filter by
+          description: Advert status
           in: query
           type: array
           uniqueItems: true
@@ -42,8 +39,20 @@ paths:
               - active
               - disabled
               - deleted
-        - $ref: '#/parameters/pageSize'
-        - $ref: '#/parameters/pageNumber'
+
+        - name: pageSize
+          type: integer
+          format: int32
+          in: query
+          description: Amount of items to return in a single page
+          default: 20
+
+        - name: pageNumber
+          type: integer
+          format: int32
+          in: query
+          description: Number of page
+          default: 0
       responses:
         '200':
           description: Get adverts result
@@ -51,11 +60,66 @@ paths:
             title: AdvertList
             type: array
             items:
-              $ref: '#/definitions/AdvertCard'
+              $ref: './advert.yml'
         '400':
           description: Validation error
           schema:
             $ref: '#/definitions/ValidationError'
+    post:
+      summary: Create new advert
+      description: Create new advert
+      responses:
+        '200':
+          description: Advert
+          schema:
+            $ref: './advert.yml'
+
+  /advert/{id}:
+    parameters:
+      - name: id
+        description: The id of the advert
+        type: integer
+        format: int64
+        in: path
+        required: true
+    get:
+      summary: Advert
+      description: Get advert
+      responses:
+        '200':
+          description: Advert
+          schema:
+            $ref: './advert.yml'
+        '404':
+          description: Advert not found
+          schema:
+            $ref: '#/definitions/AdvertNotFound'
+
+    patch:
+      summary: Update advert
+      description: Update advert
+      responses:
+        '200':
+          description: Advert
+          schema:
+            $ref: './advert.yml'
+        '404':
+          description: Advert not found
+          schema:
+            $ref: '#/definitions/AdvertNotFound'
+
+    delete:
+      summary: Delete advert
+      description: Delete advert
+      responses:
+        '204':
+          description: Advert is deleted
+
+        '404':
+          description: Advert not found
+          schema:
+            $ref: '#/definitions/AdvertNotFound'
+
   /health-check:
     get:
       summary: Health check
@@ -65,21 +129,7 @@ paths:
           description: Get health check info
           schema:
             $ref: '#/definitions/HealthCheck'
-parameters:
-  pageSize:
-    name: pageSize
-    type: integer
-    format: int32
-    in: query
-    description: Amount of items to return in a single page
-    default: 20
-  pageNumber:
-    name: pageNumber
-    type: integer
-    format: int32
-    in: query
-    description: Number of page
-    default: 0
+
 definitions:
   Error:
     title: Error Structure
@@ -98,6 +148,7 @@ definitions:
       message:
         description: a human readable version of the error
         type: string
+
   ValidationError:
     allOf:
       - $ref: '#/definitions/Error'
@@ -106,6 +157,16 @@ definitions:
           field:
             description: an optional field name to which this validation error applies
             type: string
+
+  AdvertNotFound:
+    allOf:
+      - $ref: '#/definitions/Error'
+      - type: object
+        properties:
+          field:
+            description: an optional field name to which this validation error applies
+            type: string
+
   HealthCheck:
     title: HealthCheck
     type: object
@@ -128,33 +189,3 @@ definitions:
       branch:
         title: Branch is a branch from which the binary was built
         type: string
-  AdvertCard:
-    title: A card for at advert
-    type: object
-    properties:
-      id:
-        type: integer
-      title:
-        title: The title of the advert.
-        description: |
-          The title for a advert, this needs to be at least 5 chars long.
-          Titles don't allow any formatting, besides emoji.
-        type: string
-        minLength: 5
-        maxLength: 150
-      price:
-        title: The price of the advert.
-        type: integer
-        format: int32
-        minimum: 1
-        maximum: 100000000
-      status:
-        title: the status of the issue
-        description: |
-          There are 3 possible values for a status.
-          Ignored means as much as accepted but not now, perhaps later.
-        type: string
-        enum:
-          - active
-          - disabled
-          - deleted

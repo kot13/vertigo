@@ -21,9 +21,9 @@ After install all dependencies, follow these simple steps:
 2. Update config for connect to DB 
 3. Create DB scheme:
 ```
-$ make migrateDB
+$ make migrate
 ```
-3. Start app:
+4. Start app:
 ```
 $ make run
 ```

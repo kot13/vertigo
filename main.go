@@ -52,8 +52,12 @@ func main() {
 
 	api.Logger = log.Infof
 
-	api.GetAdvertHandler = operations.GetAdvertHandlerFunc(handlers.GetAdverts)
 	api.GetHealthCheckHandler = operations.GetHealthCheckHandlerFunc(handlers.HealthCheck)
+	api.GetAdvertHandler = operations.GetAdvertHandlerFunc(handlers.GetAdverts)
+	api.GetAdvertIDHandler = operations.GetAdvertIDHandlerFunc(handlers.GetAdvert)
+	api.PostAdvertHandler = operations.PostAdvertHandlerFunc(handlers.CreateAdvert)
+	api.PatchAdvertIDHandler = operations.PatchAdvertIDHandlerFunc(handlers.UpdateAdvert)
+	api.DeleteAdvertIDHandler = operations.DeleteAdvertIDHandlerFunc(handlers.DeleteAdvert)
 
 	server := restapi.NewServer(api)
 	defer server.Shutdown()

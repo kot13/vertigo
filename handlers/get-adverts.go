@@ -7,7 +7,7 @@ import (
 )
 
 func GetAdverts(_ operations.GetAdvertParams) middleware.Responder {
-	payload := []*models.Advert{
+	payload := models.GetAdvertOKBody{
 		{
 			ID:     1,
 			Title:  "dummy advert",

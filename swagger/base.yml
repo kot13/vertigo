@@ -40,12 +40,22 @@ paths:
               - disabled
               - deleted
 
+        - name: price
+          description: 'Price of good: [min, max]'
+          in: query
+          type: array
+          items:
+            type: integer
+            format: int32
+
         - name: pageSize
           type: integer
           format: int32
           in: query
           description: Amount of items to return in a single page
           default: 20
+          minimum: 0
+          maximum: 100
 
         - name: pageNumber
           type: integer
@@ -53,6 +63,7 @@ paths:
           in: query
           description: Number of page
           default: 0
+          minimum: 0
       responses:
         '200':
           description: Get adverts result
@@ -68,6 +79,13 @@ paths:
     post:
       summary: Create new advert
       description: Create new advert
+      parameters:
+        - name: body
+          in: body
+          description: The advert to create
+          required: true
+          schema:
+            $ref: './advert.yml'
       responses:
         '200':
           description: Advert
@@ -98,6 +116,13 @@ paths:
     patch:
       summary: Update advert
       description: Update advert
+      parameters:
+        - name: body
+          in: body
+          description: The advert to update
+          required: true
+          schema:
+            $ref: './advert.yml'
       responses:
         '200':
           description: Advert

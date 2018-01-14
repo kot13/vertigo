@@ -20,7 +20,10 @@ LDFLAGS?=-ldflags "-s -w -X ${PROJECT}/version.Release=${RELEASE} -X ${PROJECT}/
 
 clean:
 	rm -f ${APP}
-	
+	rm -rf ./models
+	rm -rf ./restapi
+	rm -rf ./client
+
 dep:
 	dep ensure
 	

@@ -8,7 +8,7 @@ vertigo
 /client
 /models
 /restapi
-/swagger/swagger.json
+/swagger.json
 
 # idea project files
 .idea

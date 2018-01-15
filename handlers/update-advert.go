@@ -7,7 +7,7 @@ import (
 )
 
 func UpdateAdvert(_ advert.PatchAdvertIDParams) middleware.Responder {
-	payload := models.Advert{
+	payload := models.PatchAdvertIDOKBody{
 		ID:     1,
 		Title:  "dummy advert",
 		Status: "active",

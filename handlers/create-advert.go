@@ -7,7 +7,7 @@ import (
 )
 
 func CreateAdvert(_ advert.PostAdvertParams) middleware.Responder {
-	payload := models.Advert{
+	payload := models.PostAdvertOKBody{
 		ID:     1,
 		Title:  "dummy advert",
 		Status: "active",

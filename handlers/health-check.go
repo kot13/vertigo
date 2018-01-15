@@ -8,7 +8,7 @@ import (
 )
 
 func HealthCheck(_ support.GetHealthCheckParams) middleware.Responder {
-	payload := &models.HealthCheck{
+	payload := &models.GetHealthCheckOKBody{
 		Status:    models.HealthCheckStatusOk,
 		BuildTime: version.BuildTime,
 		Commit:    version.Commit,

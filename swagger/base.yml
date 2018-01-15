@@ -16,6 +16,11 @@ consumes:
   - application/json
 produces:
   - application/json
+tags:
+  - name: advert
+    description: Everything about Advert
+  - name: support
+    description: Everything for support
 securityDefinitions:
   token_header:
     type: apiKey
@@ -24,6 +29,8 @@ securityDefinitions:
 paths:
   /advert:
     get:
+      tags:
+        - advert
       summary: Lists the adverts
       description: Get adverts
       parameters:
@@ -77,6 +84,8 @@ paths:
           schema:
             $ref: '#/definitions/ValidationError'
     post:
+      tags:
+        - advert
       summary: Create new advert
       description: Create new advert
       parameters:
@@ -101,6 +110,8 @@ paths:
         in: path
         required: true
     get:
+      tags:
+        - advert
       summary: Advert
       description: Get advert
       responses:
@@ -114,6 +125,8 @@ paths:
             $ref: '#/definitions/AdvertNotFound'
 
     patch:
+      tags:
+        - advert
       summary: Update advert
       description: Update advert
       parameters:
@@ -134,6 +147,8 @@ paths:
             $ref: '#/definitions/AdvertNotFound'
 
     delete:
+      tags:
+        - advert
       summary: Delete advert
       description: Delete advert
       responses:
@@ -147,6 +162,8 @@ paths:
 
   /health-check:
     get:
+      tags:
+        - support
       summary: Health check
       description: Health check
       responses:

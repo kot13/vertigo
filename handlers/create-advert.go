@@ -3,10 +3,10 @@ package handlers
 import (
 	"github.com/go-openapi/runtime/middleware"
 	"github.com/kot13/vertigo/models"
-	"github.com/kot13/vertigo/restapi/operations"
+	"github.com/kot13/vertigo/restapi/operations/advert"
 )
 
-func CreateAdvert(_ operations.PostAdvertParams) middleware.Responder {
+func CreateAdvert(_ advert.PostAdvertParams) middleware.Responder {
 	payload := models.Advert{
 		ID:     1,
 		Title:  "dummy advert",
@@ -14,5 +14,5 @@ func CreateAdvert(_ operations.PostAdvertParams) middleware.Responder {
 		Price:  1000,
 	}
 
-	return operations.NewPostAdvertOK().WithPayload(&payload)
+	return advert.NewPostAdvertOK().WithPayload(&payload)
 }

@@ -7,6 +7,8 @@ import (
 	"github.com/kot13/vertigo/handlers"
 	"github.com/kot13/vertigo/restapi"
 	"github.com/kot13/vertigo/restapi/operations"
+	"github.com/kot13/vertigo/restapi/operations/advert"
+	"github.com/kot13/vertigo/restapi/operations/support"
 	"github.com/kot13/vertigo/version"
 
 	log "github.com/Sirupsen/logrus"
@@ -52,12 +54,12 @@ func main() {
 
 	api.Logger = log.Infof
 
-	api.GetHealthCheckHandler = operations.GetHealthCheckHandlerFunc(handlers.HealthCheck)
-	api.GetAdvertHandler = operations.GetAdvertHandlerFunc(handlers.GetAdverts)
-	api.GetAdvertIDHandler = operations.GetAdvertIDHandlerFunc(handlers.GetAdvert)
-	api.PostAdvertHandler = operations.PostAdvertHandlerFunc(handlers.CreateAdvert)
-	api.PatchAdvertIDHandler = operations.PatchAdvertIDHandlerFunc(handlers.UpdateAdvert)
-	api.DeleteAdvertIDHandler = operations.DeleteAdvertIDHandlerFunc(handlers.DeleteAdvert)
+	api.SupportGetHealthCheckHandler = support.GetHealthCheckHandlerFunc(handlers.HealthCheck)
+	api.AdvertGetAdvertHandler = advert.GetAdvertHandlerFunc(handlers.GetAdverts)
+	api.AdvertGetAdvertIDHandler = advert.GetAdvertIDHandlerFunc(handlers.GetAdvert)
+	api.AdvertPostAdvertHandler = advert.PostAdvertHandlerFunc(handlers.CreateAdvert)
+	api.AdvertPatchAdvertIDHandler = advert.PatchAdvertIDHandlerFunc(handlers.UpdateAdvert)
+	api.AdvertDeleteAdvertIDHandler = advert.DeleteAdvertIDHandlerFunc(handlers.DeleteAdvert)
 
 	server := restapi.NewServer(api)
 	defer server.Shutdown()

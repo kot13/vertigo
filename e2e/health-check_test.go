@@ -7,7 +7,7 @@ import (
 	httptransport "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
 	"github.com/kot13/vertigo/client"
-	"github.com/kot13/vertigo/client/operations"
+	"github.com/kot13/vertigo/client/support"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -16,7 +16,7 @@ func TestHealthCheck(t *testing.T) {
 
 	c := client.New(transport, strfmt.Default)
 
-	response, err := c.Operations.GetHealthCheck(operations.NewGetHealthCheckParams())
+	response, err := c.Support.GetHealthCheck(support.NewGetHealthCheckParams())
 
 	assert.Nil(t, err)
 	if t.Failed() {

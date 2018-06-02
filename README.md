@@ -17,7 +17,7 @@
 
 ## Setup
 After install all dependencies, follow these simple steps: 
-1. Update specs in `./swagger`
+1. Update specs in `./swagger.yml`
 2. Update config for connect to DB 
 3. Create DB scheme:
 ```

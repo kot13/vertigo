@@ -28,5 +28,4 @@ func Publish(w http.ResponseWriter, r *http.Request) {
 	renderer.Render(PublishResponse{
 		Success: true,
 	}, w)
-	return
 }

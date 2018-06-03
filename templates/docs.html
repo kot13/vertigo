@@ -157,6 +157,48 @@
                             <div id="update" class="section-block">
                                 <h3 class="block-title">Изменить</h3>
                                 <p>Метод для измения объявления</p>
+                                <h4>Параметры запроса:</h4>
+                                <div class="table-responsive">
+                                    <table class="table table-striped">
+                                        <thead>
+                                        <tr>
+                                            <th>Название</th>
+                                            <th>Тип</th>
+                                            <th>Описание</th>
+                                            <th>Обязательно</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td>price</td>
+                                            <td>Integer</td>
+                                            <td>Стоимость товара в рублях</td>
+                                            <td>Нет</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <h4>Пример запроса:</h4>
+                                <pre><code class="language-json">{
+    "price": 1
+}</code></pre>
+                                <h4>Отправить запрос:</h4>
+                                <form data-editor-id="update" data-response-id="response-update" data-on="sample-request-form" data-url="/advert/update">
+                                    <div class="form-group">
+                                        <label for="id">ID</label>
+                                        <input type="text" class="form-control" id="id" name="id" placeholder="1">
+                                    </div>
+                                    <div class="form-group">
+                                        <div id="jsoneditor-update" class="jsoneditor" data-jsoneditor-key="update">
+                                            {
+                                                "price": 1
+                                            }
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-cta btn-pink">Отправить</button>
+                                </form>
+                                <pre class="collapse" id="response-update"><code class="language-json"></code></pre>
                             </div>
                             <div id="publish" class="section-block">
                                 <h3 class="block-title">Опубликовать</h3>

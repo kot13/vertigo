@@ -28,5 +28,4 @@ func UnPublish(w http.ResponseWriter, r *http.Request) {
 	renderer.Render(UnPublishResponse{
 		Success: true,
 	}, w)
-	return
 }

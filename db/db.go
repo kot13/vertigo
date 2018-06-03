@@ -8,6 +8,7 @@ import (
 	"github.com/go-pg/pg"
 	"github.com/go-pg/pg/orm"
 	"strconv"
+	"time"
 )
 
 type DB struct {
@@ -47,12 +48,34 @@ func (db *DB) SetStatus(ID string, status int8) (res orm.Result, err error) {
 		return
 	}
 
+	now := time.Now()
+
 	advert := models.AdvertData{
-		ID:     int64(iid),
-		Status: status,
+		ID:        int64(iid),
+		Status:    status,
+		UpdatedAt: &now,
 	}
 
-	res, err = db.Model(&advert).Column("status").WherePK().Update()
+	res, err = db.Model(&advert).Column("status", "updated_at").WherePK().Update()
+
+	return
+}
+
+func (db *DB) SetProperties(ID string, props map[string]models.AdvertProperty) (res orm.Result, err error) {
+	iid, err := strconv.Atoi(ID)
+	if err != nil {
+		return
+	}
+
+	now := time.Now()
+
+	advert := models.AdvertData{
+		ID:         int64(iid),
+		Properties: props,
+		UpdatedAt:  &now,
+	}
+
+	res, err = db.Model(&advert).Column("properties", "updated_at").WherePK().Update()
 
 	return
 }

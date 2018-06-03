@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/kot13/vertigo/app/container"
 	"github.com/kot13/vertigo/app/handlers"
 	"github.com/kot13/vertigo/config"
 	"github.com/kot13/vertigo/db"
@@ -12,16 +13,19 @@ import (
 )
 
 type App struct {
-	cfg *config.Config
-	db  *db.DB
+	c *container.Container
 }
 
 func New(cfg *config.Config) *App {
 	initLogger(cfg)
 
+	c := container.New()
+
+	container.SetCfg(cfg)
+	container.SetDb(db.New(cfg.Db))
+
 	return &App{
-		cfg: cfg,
-		db:  db.New(cfg.Db),
+		c: c,
 	}
 }
 
@@ -38,7 +42,7 @@ func (app *App) Run() error {
 	http.HandleFunc("/advert/publish", handlers.Publish)
 	http.HandleFunc("/advert/un-publish", handlers.UnPublish)
 
-	return http.ListenAndServe(":"+app.cfg.Port, nil)
+	return http.ListenAndServe(":"+container.GetCfg().Port, nil)
 }
 
 func initLogger(cfg *config.Config) {

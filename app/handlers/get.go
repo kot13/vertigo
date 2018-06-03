@@ -3,19 +3,23 @@ package handlers
 import (
 	"net/http"
 
+	"github.com/kot13/vertigo/app/container"
 	"github.com/kot13/vertigo/app/renderer"
-	"github.com/kot13/vertigo/db/models"
 )
 
 func Get(w http.ResponseWriter, r *http.Request) {
-	id := string(r.URL.Query().Get("id"))
+	hexID := r.URL.Query().Get("hex_id")
 
-	if id == "" {
-		renderer.Error("Param id not found", w)
+	if hexID == "" {
+		renderer.Error("Param hex_id is require", w)
+		return
 	}
 
-	renderer.Render(models.AdvertData{
-		ID:    1,
-		HexID: id,
-	}, w)
+	advert, err := container.GetDb().GetAdvertByHexId(hexID)
+	if err != nil {
+		renderer.Error("Error:"+err.Error(), w)
+		return
+	}
+
+	renderer.Render(advert, w)
 }

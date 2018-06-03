@@ -38,13 +38,13 @@ container: build
 run: container
 	docker stop ${APP} || true && docker rm ${APP} || true
 	docker run --name ${APP} -p ${PORT}:${PORT} --rm \
-		-e "PORT=${PORT}" \
+		-e "PORT=${PORT}" -e "LOG_LEVEL=${LOG_LEVEL}" -e "DATABASE=${DATABASE}" \
 		$(APP):$(RELEASE)
 
 rund: container
 	docker stop ${APP} || true && docker rm ${APP} || true
 	docker run -d --name ${APP} -p ${PORT}:${PORT} --rm \
-		-e "PORT=${PORT}" \
+		-e "PORT=${PORT}" -e "LOG_LEVEL=${LOG_LEVEL}" -e "DATABASE=${DATABASE}" \
 		$(APP):$(RELEASE)
 
 runLocal: clean gen dep
@@ -54,5 +54,5 @@ runLocal: clean gen dep
 test: rund
 	PORT=${PORT} go test -v -race ./e2e/...
 
-docs:
-	rund && open http://localhost:${PORT}/docs
+docs: rund
+	open http://localhost:${PORT}/docs

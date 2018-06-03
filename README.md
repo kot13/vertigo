@@ -37,4 +37,4 @@ $ make test
 ```
 
 ## Architecture
-![architecture](https://raw.githubusercontent.com/kot13/vertigo/dev/static/assets/image/architecture.png)
+![architecture](https://raw.githubusercontent.com/kot13/vertigo/dev/static/assets/images/architecture.png)

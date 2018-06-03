@@ -6,12 +6,14 @@ import (
 
 	"github.com/kot13/vertigo/app/handlers"
 	"github.com/kot13/vertigo/config"
+	"github.com/kot13/vertigo/db"
 
 	log "github.com/Sirupsen/logrus"
 )
 
 type App struct {
 	cfg *config.Config
+	db  *db.DB
 }
 
 func New(cfg *config.Config) *App {
@@ -19,6 +21,7 @@ func New(cfg *config.Config) *App {
 
 	return &App{
 		cfg: cfg,
+		db:  db.New(cfg.Db),
 	}
 }
 
@@ -28,6 +31,12 @@ func (app *App) Run() error {
 	})
 
 	http.HandleFunc("/docs", handlers.Docs)
+	http.HandleFunc("/advert/get", handlers.Get)
+	http.HandleFunc("/advert/search", handlers.Search)
+	http.HandleFunc("/advert/create", handlers.Create)
+	http.HandleFunc("/advert/update", handlers.Update)
+	http.HandleFunc("/advert/publish", handlers.Publish)
+	http.HandleFunc("/advert/un-publish", handlers.UnPublish)
 
 	return http.ListenAndServe(":"+app.cfg.Port, nil)
 }

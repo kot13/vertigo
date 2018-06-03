@@ -3,18 +3,19 @@ package db
 import (
 	log "github.com/Sirupsen/logrus"
 	"github.com/go-pg/pg"
-	"os"
 )
 
-var conn *pg.DB
+type DB struct {
+	*pg.DB
+}
 
-// InitDB init connect to DB
-func InitDB() {
-	cfg := os.Getenv("DATABASE")
-	pgOpt, err := pg.ParseURL(cfg)
+func New(dsn string) *DB {
+	pgOpt, err := pg.ParseURL(dsn)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	conn = pg.Connect(pgOpt)
+	return &DB{
+		pg.Connect(pgOpt),
+	}
 }

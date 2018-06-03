@@ -1,7 +1,7 @@
 APP?=vertigo
 
 PORT?=8000
-LOG_LEVEL?=info
+LOG_LEVEL?=debug
 DATABASE?=postgres://user:password@host:port/db?sslmode=disable
 
 RELEASE?=0.0.1

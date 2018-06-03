@@ -2,13 +2,8 @@
 vertigo
 
 # dependencies
-/vendor
-
-# generated code
-/client
-/models
-/restapi
-/swagger.json
+vendor/**
+!vendor/manifest
 
 # idea project files
 .idea

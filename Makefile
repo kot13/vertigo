@@ -1,7 +1,8 @@
 APP?=vertigo
 
 PORT?=8000
-LOG_LEVEL?=debug
+LOG_LEVEL?=info
+DATABASE?=postgres://user:password@host:port/db?sslmode=disable
 
 RELEASE?=0.0.1
 COMMIT?=$(shell git rev-parse --short HEAD)
@@ -13,25 +14,18 @@ PROJECT?=github.com/kot13/vertigo
 GOOS?=linux
 GOARCH?=amd64
 
-BASE_SWAGGER_SPEC?=./swagger.yml
-SWAGGER_SPEC?=./swagger.json
+SPEC?=./spec.yml
 
 LDFLAGS?=-ldflags "-s -w -X ${PROJECT}/version.Release=${RELEASE} -X ${PROJECT}/version.Commit=${COMMIT} -X ${PROJECT}/version.BuildTime=${BUILD_TIME} -X ${PROJECT}/version.Branch=${BRANCH}"
 
 clean:
-	rm -f ${SWAGGER_SPEC}
 	rm -f ${APP}
-	rm -rf ./models
-	rm -rf ./restapi
-	rm -rf ./client
 
 dep:
-	dep ensure
+	gvt restore
 	
 gen:
-	swagger expand ${BASE_SWAGGER_SPEC} -o ${SWAGGER_SPEC}
-	swagger generate server -A ${APP} -f ${SWAGGER_SPEC} --exclude-main
-	swagger generate client -A ${APP} -f ${SWAGGER_SPEC}
+	# generate code under develop
 	
 compile: 
 	CGO_ENABLED=0 GOOS=${GOOS} GOARCH=${GOARCH} go build ${LDFLAGS} -o ${APP}
@@ -55,10 +49,10 @@ rund: container
 
 runLocal: clean gen dep
 	go build ${LDFLAGS} -o ${APP}
-	PORT=${PORT} LOG_LEVEL=${LOG_LEVEL} ./${APP}
+	PORT=${PORT} LOG_LEVEL=${LOG_LEVEL} DATABASE=${DATABASE} ./${APP}
 
 test: rund
 	PORT=${PORT} go test -v -race ./e2e/...
-	
+
 docs:
-	swagger serve -F redoc ${SWAGGER_SPEC}
+	rund && open http://localhost:${PORT}/docs

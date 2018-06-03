@@ -5,19 +5,17 @@
 * Specification first
 * Code generation for boilerplate code
 * Auto-migration for DB
-* CQRS + ES
-* Swagger
-* Docs [redoc](https://github.com/Rebilly/ReDoc)
+* CQRS
 
 ## Dependency
 * [Docker](https://www.docker.com/)
 * [Golang >= 1.9](https://golang.org/)
-* [dep](https://github.com/golang/dep)
-* [Go-swagger](https://github.com/go-swagger/go-swagger)
+* [gvt](https://github.com/FiloSottile/gvt)
+* [PostgreSQL](https://www.postgresql.org/)
 
 ## Setup
 After install all dependencies, follow these simple steps: 
-1. Update specs in `./swagger.yml`
+1. Update specs in `./spec.yml`
 2. Update config for connect to DB 
 3. Create DB scheme:
 ```

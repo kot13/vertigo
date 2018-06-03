@@ -142,10 +142,7 @@
 }</code></pre>
 
                                 <h4>Отправить запрос:</h4>
-                                <form data-editor-id="create" data-on="sample-request-form">
-                                    <div class="form-group">
-                                        <input name="url" value="/">
-                                    </div>
+                                <form data-editor-id="create" data-response-id="response-create" data-on="sample-request-form" data-url="/advert/create">
                                     <div class="form-group">
                                         <div id="jsoneditor-create" class="jsoneditor" data-jsoneditor-key="create">
                                             {
@@ -164,18 +161,139 @@
                             <div id="publish" class="section-block">
                                 <h3 class="block-title">Опубликовать</h3>
                                 <p>Метод для публикации объявления</p>
+                                <h4>Параметры запроса:</h4>
+                                <div class="table-responsive">
+                                    <table class="table table-striped">
+                                        <thead>
+                                        <tr>
+                                            <th>Название</th>
+                                            <th>Тип</th>
+                                            <th>Описание</th>
+                                            <th>Обязательно</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td>id</td>
+                                            <td>Integer</td>
+                                            <td>ID объявление</td>
+                                            <td>Да</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <h4>Отправить запрос:</h4>
+                                <form data-on="sample-request-form" data-response-id="response-publish" data-url="/advert/publish">
+                                    <div class="form-group">
+                                        <label for="id">ID</label>
+                                        <input type="text" class="form-control" id="id" name="id" placeholder="1">
+                                    </div>
+                                    <button class="btn btn-cta btn-pink">Отправить</button>
+                                </form>
+                                <pre class="collapse" id="response-publish"><code class="language-json"></code></pre>
                             </div>
                             <div id="un-publish" class="section-block">
                                 <h3 class="block-title">Снять с публикации</h3>
                                 <p>Метод для снятия с публикации объявления</p>
+                                <h4>Параметры запроса:</h4>
+                                <div class="table-responsive">
+                                    <table class="table table-striped">
+                                        <thead>
+                                        <tr>
+                                            <th>Название</th>
+                                            <th>Тип</th>
+                                            <th>Описание</th>
+                                            <th>Обязательно</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td>id</td>
+                                            <td>Integer</td>
+                                            <td>ID объявление</td>
+                                            <td>Да</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <h4>Отправить запрос:</h4>
+                                <form data-on="sample-request-form" data-response-id="response-un-publish" data-url="/advert/un-publish">
+                                    <div class="form-group">
+                                        <label for="id">ID</label>
+                                        <input type="text" class="form-control" id="id" name="id" placeholder="1">
+                                    </div>
+                                    <button class="btn btn-cta btn-pink">Отправить</button>
+                                </form>
+                                <pre class="collapse" id="response-un-publish"><code class="language-json"></code></pre>
                             </div>
                             <div id="get" class="section-block">
                                 <h3 class="block-title">Получить по ID</h3>
                                 <p>Метод для получения объявления по уникальному идентификатору</p>
+                                <h4>Параметры запроса:</h4>
+                                <div class="table-responsive">
+                                    <table class="table table-striped">
+                                        <thead>
+                                        <tr>
+                                            <th>Название</th>
+                                            <th>Тип</th>
+                                            <th>Описание</th>
+                                            <th>Обязательно</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td>id</td>
+                                            <td>Integer</td>
+                                            <td>ID объявление</td>
+                                            <td>Да</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <h4>Отправить запрос:</h4>
+                                <form data-on="sample-request-form" data-response-id="response-get" data-url="/advert/get">
+                                    <div class="form-group">
+                                        <label for="id">ID</label>
+                                        <input type="text" class="form-control" id="id" name="id" placeholder="1">
+                                    </div>
+                                    <button class="btn btn-cta btn-pink">Отправить</button>
+                                </form>
+                                <pre class="collapse" id="response-get"><code class="language-json"></code></pre>
                             </div>
                             <div id="search" class="section-block">
                                 <h3 class="block-title">Поиск</h3>
                                 <p>Метод для поиска объявлений</p>
+                            </div>
+                        </section>
+
+                        <section id="advert" class="doc-section">
+                            <h2 class="section-title">Объявление</h2>
+                            <br/>
+                            <p>Основная сущность системы. Состоит из набора основных полей и массива <a href="#properties" class="scrollto">свойств</a></p>
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th>Название</th>
+                                        <th>Тип</th>
+                                        <th>Описание</th>
+                                        <th>Обязательно</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {{range .Advert}}
+                                        <tr>
+                                            <td>{{.Key}}</td>
+                                            <td>{{.Type}}</td>
+                                            <td>{{.Title}}</td>
+                                            <td>{{if .IsRequired}}Да{{else}}Нет{{end}}</td>
+                                        </tr>
+                                    {{end}}
+                                    </tbody>
+                                </table>
                             </div>
                         </section>
 
@@ -189,27 +307,19 @@
                                             <th>Тип</th>
                                             <th>Описание</th>
                                             <th>Обязательно</th>
+                                            <th>Индексируется</th>
                                         </tr>
                                     </thead>
                                     <tbody>
+                                    {{range .Properties}}
                                         <tr>
-                                            <td>id</td>
-                                            <td>Int64</td>
-                                            <td>Уникальный идентификатор</td>
-                                            <td>Да</td>
+                                            <td>{{.Key}}</td>
+                                            <td>{{.Type}}</td>
+                                            <td>{{.Title}}</td>
+                                            <td>{{if .IsRequired}}Да{{else}}Нет{{end}}</td>
+                                            <td>{{if .IsIndex}}Да{{else}}Нет{{end}}</td>
                                         </tr>
-                                        <tr>
-                                            <td>HexId</td>
-                                            <td>String</td>
-                                            <td>Уникальный идентификатор в HEX виде</td>
-                                            <td>Да</td>
-                                        </tr>
-                                        <tr>
-                                            <td>id</td>
-                                            <td>Int64</td>
-                                            <td>Id пользователя добавившего объявление</td>
-                                            <td>Да</td>
-                                        </tr>
+                                    {{end}}
                                     </tbody>
                                 </table>
                             </div>
@@ -232,6 +342,7 @@
                                 </ul>
                             </li>
                             <li>
+                                <a class="scrollto" href="#advert">Объявление</a>
                                 <a class="scrollto" href="#properties">Свойства</a>
                             </li>
                         </ul>
@@ -259,7 +370,6 @@
             </div>
             <div class="modal-body">
                 <form>
-                    <input type="hidden" id="api-url" value="asd">
                     <div class="form-group">
                         <label for="x-api-key">X-API-KEY</label>
                         <input type="text" class="form-control" id="x-api-key" value="documentation">

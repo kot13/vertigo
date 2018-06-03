@@ -71,17 +71,25 @@ $(document).ready(function() {
     $('[data-on=sample-request-form]').submit(function(e) {
         e.preventDefault();
 
+        var url = $(this).attr('data-url');
         var editorId = $(this).attr('data-editor-id');
-        var editor = jsonEditors[editorId];
-        var param = editor.get();
-        var $response = $('#response-' + editorId);
+        var responseId = $(this).attr('data-response-id');
+        var $response = $('#' + responseId);
+        var query = $(this).serialize();
+
+        url += '?' + query;
+
+        var param = {};
+
+        if (editorId !== undefined) {
+            var editor = jsonEditors[editorId];
+            param = editor.get();
+        }
 
         var headers = localStorage.getItem('settings');
         if (headers) {
             headers = JSON.parse(headers);
         }
-
-        var url = $('#api-url').val();
 
         var ajaxRequest = {
             url: url,

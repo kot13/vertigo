@@ -6,6 +6,8 @@ import (
 	log "github.com/Sirupsen/logrus"
 
 	"github.com/go-pg/pg"
+	"github.com/go-pg/pg/orm"
+	"strconv"
 )
 
 type DB struct {
@@ -23,18 +25,34 @@ func New(dsn string) *DB {
 	}
 }
 
-func (db *DB) GetAdvertByHexId(HexID string) (advert models.AdvertData, err error) {
+func (db *DB) GetAdvertById(ID string) (advert models.AdvertData, err error) {
 	_, err = db.QueryOne(&advert, `
 		SELECT
 			"id",
-			"hex_id",
 			"user_id",
 			"properties",
 			"created_at",
-			"updated_at"
+			"updated_at",
+			"status"
 		FROM "advert_data"
-		WHERE "hex_id" = ?
-	`, HexID)
+		WHERE "id" = ?
+	`, ID)
+
+	return
+}
+
+func (db *DB) SetStatus(ID string, status int8) (res orm.Result, err error) {
+	iid, err := strconv.Atoi(ID)
+	if err != nil {
+		return
+	}
+
+	advert := models.AdvertData{
+		ID:     int64(iid),
+		Status: status,
+	}
+
+	res, err = db.Model(&advert).Column("status").WherePK().Update()
 
 	return
 }

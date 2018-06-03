@@ -8,14 +8,13 @@ import (
 )
 
 func Get(w http.ResponseWriter, r *http.Request) {
-	hexID := r.URL.Query().Get("hex_id")
-
-	if hexID == "" {
-		renderer.Error("Param hex_id is require", w)
+	ID := r.URL.Query().Get("id")
+	if ID == "" {
+		renderer.Error("Param id is require", w)
 		return
 	}
 
-	advert, err := container.GetDb().GetAdvertByHexId(hexID)
+	advert, err := container.GetDb().GetAdvertById(ID)
 	if err != nil {
 		renderer.Error("Error:"+err.Error(), w)
 		return

@@ -3,9 +3,30 @@ package handlers
 import (
 	"net/http"
 
-	log "github.com/Sirupsen/logrus"
+	"github.com/kot13/vertigo/app/container"
+	"github.com/kot13/vertigo/app/renderer"
+	"github.com/kot13/vertigo/db/models"
 )
 
+type PublishResponse struct {
+	Success bool `json:"success"`
+}
+
 func Publish(w http.ResponseWriter, r *http.Request) {
-	log.Debug("publish advert")
+	ID := r.URL.Query().Get("id")
+	if ID == "" {
+		renderer.Error("Param id is require", w)
+		return
+	}
+
+	_, err := container.GetDb().SetStatus(ID, models.StatusSendToModeration)
+	if err != nil {
+		renderer.Error(err.Error(), w)
+		return
+	}
+
+	renderer.Render(PublishResponse{
+		Success: true,
+	}, w)
+	return
 }

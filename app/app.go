@@ -35,6 +35,7 @@ func (app *App) Run() error {
 	})
 
 	http.HandleFunc("/docs", handlers.Docs)
+	http.HandleFunc("/health-check", handlers.HealthCheck)
 	http.HandleFunc("/advert/get", handlers.Get)
 	http.HandleFunc("/advert/search", handlers.Search)
 	http.HandleFunc("/advert/create", handlers.Create)

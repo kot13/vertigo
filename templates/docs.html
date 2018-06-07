@@ -308,6 +308,46 @@
                             <div id="search" class="section-block">
                                 <h3 class="block-title">Поиск</h3>
                                 <p>Метод для поиска объявлений</p>
+                                <h4>Параметры запроса:</h4>
+                                <div class="table-responsive">
+                                    <table class="table table-striped">
+                                        <thead>
+                                        <tr>
+                                            <th>Название</th>
+                                            <th>Тип</th>
+                                            <th>Описание</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {{range .SearchProperty}}
+                                            <tr>
+                                                <td>{{.Key}}</td>
+                                                <td>{{.Type}}</td>
+                                                <td>{{.Title}}</td>
+                                            </tr>
+                                        {{end}}
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <h4>Отправить запрос:</h4>
+                                <form data-on="sample-request-form" data-response-id="response-search" data-url="/advert/search" class="form-horizontal">
+                                    {{range .SearchProperty}}
+                                    <div class="form-group">
+                                        <label for="{{.Key}}" class="col-sm-3 control-label">{{.Title}}</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control" id="{{.Key}}" name="{{.Key}}">
+                                        </div>
+                                    </div>
+                                    {{end}}
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-3 col-sm-9">
+                                            <button class="btn btn-cta btn-pink">Отправить</button>
+                                        </div>
+                                    </div>
+                                </form>
+                                <pre class="collapse" id="response-search"><code class="language-json"></code></pre>
+
                             </div>
                         </section>
 

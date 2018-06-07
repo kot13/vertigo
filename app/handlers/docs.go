@@ -13,9 +13,18 @@ type Property struct {
 	IsIndex    bool
 }
 
+type SearchProperty struct {
+	Key      string
+	Type     string
+	Title    string
+	Column   string
+	Operator string
+}
+
 type data struct {
-	Advert     []Property
-	Properties []Property
+	Advert         []Property
+	Properties     []Property
+	SearchProperty []SearchProperty
 }
 
 func Docs(w http.ResponseWriter, r *http.Request) {
@@ -69,6 +78,23 @@ func Docs(w http.ResponseWriter, r *http.Request) {
 			Title:      "Цена товара в рублях",
 			IsRequired: true,
 			IsIndex:    true,
+		},
+	}
+
+	d.SearchProperty = []SearchProperty{
+		{
+			Key:      "priceMin",
+			Type:     "int64",
+			Title:    "Цена от",
+			Column:   "price",
+			Operator: ">=",
+		},
+		{
+			Key:      "priceMax",
+			Type:     "int64",
+			Title:    "Цена до",
+			Column:   "price",
+			Operator: "<=",
 		},
 	}
 

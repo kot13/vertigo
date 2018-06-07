@@ -19,7 +19,7 @@ type AdvertProperty struct {
 }
 
 type AdvertData struct {
-	tableName struct{} `alias:"advert_data"`
+	tableName struct{} `sql:"advert_data",alias:"advert_data"`
 
 	ID         int64                     `json:"id",sql:"id"`
 	UserID     int64                     `json:"userId",sql:"user_id"`
@@ -27,4 +27,10 @@ type AdvertData struct {
 	CreatedAt  time.Time                 `json:"createdAt",sql:"created_at"`
 	UpdatedAt  *time.Time                `json:"updatedAt",sql:"updated_at"`
 	Status     int8                      `json:"status",sql:"status"`
+}
+
+type AdvertIndex struct {
+	tableName struct{} `sql:"advert_index",alias:"advert_index"`
+
+	Price int64 `sql:"price"`
 }

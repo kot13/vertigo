@@ -16,7 +16,7 @@ func Get(w http.ResponseWriter, r *http.Request) {
 
 	advert, err := container.GetDb().GetAdvertById(ID)
 	if err != nil {
-		renderer.Error("Error:"+err.Error(), w)
+		renderer.Error(err.Error(), w)
 		return
 	}
 

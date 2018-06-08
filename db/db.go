@@ -61,7 +61,7 @@ func (db *DB) SetStatus(ID string, status int8) (res orm.Result, err error) {
 	return
 }
 
-func (db *DB) SetProperties(ID string, props map[string]models.AdvertProperty) (res orm.Result, err error) {
+func (db *DB) SetProperties(ID string, props models.AdvertProperties) (res orm.Result, err error) {
 	iid, err := strconv.Atoi(ID)
 	if err != nil {
 		return
@@ -78,4 +78,29 @@ func (db *DB) SetProperties(ID string, props map[string]models.AdvertProperty) (
 	res, err = db.Model(&advert).Column("properties", "updated_at").WherePK().Update()
 
 	return
+}
+
+func (db *DB) AddToIndex(ID string, props models.AdvertProperties) error {
+	iid, err := strconv.Atoi(ID)
+	if err != nil {
+		return err
+	}
+
+	a := models.AdvertIndex{
+		Id:    int64(iid),
+		Price: props.Price,
+	}
+	return db.Insert(&a)
+}
+
+func (db *DB) RemoveFromIndex(ID string) error {
+	iid, err := strconv.Atoi(ID)
+	if err != nil {
+		return err
+	}
+
+	a := models.AdvertIndex{
+		Id: int64(iid),
+	}
+	return db.Delete(&a)
 }

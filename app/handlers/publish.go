@@ -19,7 +19,19 @@ func Publish(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	_, err := container.GetDb().SetStatus(ID, models.StatusSendToModeration)
+	advert, err := container.GetDb().GetAdvertById(ID)
+	if err != nil {
+		renderer.Error(err.Error(), w)
+		return
+	}
+
+	_, err = container.GetDb().SetStatus(ID, models.StatusSendToModeration)
+	if err != nil {
+		renderer.Error(err.Error(), w)
+		return
+	}
+
+	err = container.GetDb().AddToIndex(ID, advert.Properties)
 	if err != nil {
 		renderer.Error(err.Error(), w)
 		return

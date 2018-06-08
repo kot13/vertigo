@@ -21,14 +21,14 @@ type CreateResponse struct {
 func Create(w http.ResponseWriter, r *http.Request) {
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
-		renderer.Error("Error: "+err.Error(), w)
+		renderer.Error(err.Error(), w)
 		return
 	}
 
 	var req CreateRequest
 	err = json.Unmarshal(body, &req)
 	if err != nil {
-		renderer.Error("Error: "+err.Error(), w)
+		renderer.Error(err.Error(), w)
 		return
 	}
 
@@ -38,7 +38,7 @@ func Create(w http.ResponseWriter, r *http.Request) {
 	}
 	err = container.GetDb().Insert(&a)
 	if err != nil {
-		renderer.Error("Error: "+err.Error(), w)
+		renderer.Error(err.Error(), w)
 		return
 	}
 

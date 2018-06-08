@@ -13,24 +13,24 @@ const (
 	StatusNotValid         = 6
 )
 
-type AdvertProperty struct {
-	Data  string `json:"data",sql:"data"`
-	Value string `json:"value",sql:"value"`
-}
-
 type AdvertData struct {
 	tableName struct{} `sql:"advert_data",alias:"advert_data"`
 
-	ID         int64                     `json:"id",sql:"id"`
-	UserID     int64                     `json:"userId",sql:"user_id"`
-	Properties map[string]AdvertProperty `json:"properties",sql:"properties"`
-	CreatedAt  time.Time                 `json:"createdAt",sql:"created_at"`
-	UpdatedAt  *time.Time                `json:"updatedAt",sql:"updated_at"`
-	Status     int8                      `json:"status",sql:"status"`
+	ID         int64            `json:"id",sql:"id"`
+	UserID     int64            `json:"userId",sql:"user_id"`
+	Properties AdvertProperties `json:"properties",sql:"properties"`
+	CreatedAt  time.Time        `json:"createdAt",sql:"created_at"`
+	UpdatedAt  *time.Time       `json:"updatedAt",sql:"updated_at"`
+	Status     int8             `json:"status",sql:"status"`
+}
+
+type AdvertProperties struct {
+	Price *int64 `json:"price,omitempty"`
 }
 
 type AdvertIndex struct {
 	tableName struct{} `sql:"advert_index",alias:"advert_index"`
 
-	Price int64 `sql:"price"`
+	Id    int64  `sql:"id"`
+	Price *int64 `sql:"price"`
 }

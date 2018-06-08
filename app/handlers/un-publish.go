@@ -25,6 +25,12 @@ func UnPublish(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	err = container.GetDb().RemoveFromIndex(ID)
+	if err != nil {
+		renderer.Error(err.Error(), w)
+		return
+	}
+
 	renderer.Render(UnPublishResponse{
 		Success: true,
 	}, w)

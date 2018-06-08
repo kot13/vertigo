@@ -9,6 +9,8 @@ import (
 	"github.com/kot13/vertigo/db/models"
 )
 
+const MaxCountResults = 10000
+
 var props = []SearchProperty{
 	{
 		Key:      "priceMin",
@@ -27,18 +29,18 @@ var props = []SearchProperty{
 }
 
 func Search(w http.ResponseWriter, r *http.Request) {
-	var adverts []models.AdvertIndex
-	q := container.GetDb().Model(&adverts)
+	var adverts []models.AdvertData
+	q := container.GetDb().Model(&adverts).ColumnExpr("advert_data.*").Join("JOIN advert_index ON advert_index.id = advert_data.id")
 
 	values := r.URL.Query()
 	for _, prop := range props {
 		value := values.Get(prop.Key)
 		if value != "" {
-			q.Where(fmt.Sprintf("%s %s ?", prop.Column, prop.Operator), value)
+			q.Where(fmt.Sprintf("advert_index.%s %s ?", prop.Column, prop.Operator), value)
 		}
 	}
 
-	err := q.Limit(1).Select()
+	err := q.Limit(MaxCountResults).Select()
 	if err != nil {
 		renderer.Error(err.Error(), w)
 		return

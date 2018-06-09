@@ -95,18 +95,25 @@ func Docs(w http.ResponseWriter, r *http.Request) {
 			IsRequired: true,
 			IsIndex:    true,
 		},
+		{
+			Key:        "vendor",
+			Type:       "int64",
+			Title:      "id производителя",
+			IsRequired: true,
+			IsIndex:    true,
+		},
 	}
 
 	d.SearchProperty = []SearchProperty{
 		{
 			Key:     "priceMin",
-			Type:    "int64",
+			Type:    "int",
 			Title:   "Цена от",
 			Example: "1",
 		},
 		{
 			Key:     "priceMax",
-			Type:    "int64",
+			Type:    "int",
 			Title:   "Цена до",
 			Example: "100000",
 		},
@@ -127,6 +134,12 @@ func Docs(w http.ResponseWriter, r *http.Request) {
 			Type:    "string",
 			Title:   "Область поиска (радиус)",
 			Example: "1000",
+		},
+		{
+			Key:     "vendor",
+			Type:    "[]int",
+			Title:   "Массив id производителей",
+			Example: "1,2",
 		},
 	}
 

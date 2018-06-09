@@ -96,9 +96,9 @@ func (db *DB) AddToIndex(ID string, props models.AdvertProperties) error {
 	point := fmt.Sprintf("ST_GeomFromEWKT('SRID=4326;POINT(%s %s)')", *props.Lon, *props.Lat)
 
 	_, err := db.Model((*models.AdvertIndex)(nil)).Exec(`
-		INSERT INTO "advert_index" (id, price, point)
-		VALUES (?, ?, `+point+`)
-	`, ID, *props.Price)
+		INSERT INTO "advert_index" (id, price, vendor, point)
+		VALUES (?, ?, ?, `+point+`)
+	`, ID, *props.Price, *props.Vendor)
 
 	return err
 }

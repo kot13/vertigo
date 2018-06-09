@@ -11,9 +11,10 @@ import (
 )
 
 type UpdateRequest struct {
-	Price *int64  `json:"price,omitempty"`
-	Lat   *string `json:"lat,omitempty"`
-	Lon   *string `json:"lon,omitempty"`
+	Price  *int64  `json:"price,omitempty"`
+	Vendor *int64  `json:"vendor,omitempty"`
+	Lat    *string `json:"lat,omitempty"`
+	Lon    *string `json:"lon,omitempty"`
 }
 
 type UpdateResponse struct {
@@ -41,9 +42,10 @@ func Update(w http.ResponseWriter, r *http.Request) {
 	}
 
 	props := models.AdvertProperties{
-		Price: req.Price,
-		Lat:   req.Lat,
-		Lon:   req.Lon,
+		Price:  req.Price,
+		Lat:    req.Lat,
+		Lon:    req.Lon,
+		Vendor: req.Vendor,
 	}
 
 	_, err = container.GetDb().SetProperties(ID, props)

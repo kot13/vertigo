@@ -3,7 +3,9 @@ package handlers
 import (
 	"fmt"
 	"net/http"
+	"strings"
 
+	"github.com/go-pg/pg"
 	"github.com/kot13/vertigo/app/container"
 	"github.com/kot13/vertigo/app/renderer"
 	"github.com/kot13/vertigo/db/models"
@@ -14,15 +16,21 @@ const MaxCountResults = 10000
 var props = []SearchProperty{
 	{
 		Key:       "priceMin",
-		Type:      "int64",
+		Type:      "int",
 		Title:     "Цена от",
 		Condition: "advert_index.price >= ?",
 	},
 	{
 		Key:       "priceMax",
-		Type:      "int64",
+		Type:      "int",
 		Title:     "Цена до",
 		Condition: "advert_index.price <= ?",
+	},
+	{
+		Key:       "vendor",
+		Type:      "[]int",
+		Title:     "Производитель",
+		Condition: "advert_index.vendor in (?)",
 	},
 }
 
@@ -34,7 +42,18 @@ func Search(w http.ResponseWriter, r *http.Request) {
 	for _, prop := range props {
 		value := values.Get(prop.Key)
 		if value != "" {
-			q.Where(prop.Condition, value)
+			switch prop.Type {
+			case "int":
+				q.Where(prop.Condition, value)
+			case "string":
+				q.Where(prop.Condition, value)
+			case "[]int":
+				items := strings.Split(value, ",")
+				q.Where(prop.Condition, pg.In(items))
+			case "[]string":
+				items := strings.Split(value, ",")
+				q.Where(prop.Condition, pg.In(items))
+			}
 		}
 	}
 

@@ -24,10 +24,11 @@ func init() {
 
 			CREATE TABLE advert_index
 			(
-			  id    INTEGER NOT NULL
+			  id     INTEGER NOT NULL
 				CONSTRAINT advert_index_pkey
 				PRIMARY KEY,
-			  price INTEGER NOT NULL
+			  price  INTEGER NOT NULL,
+			  vendor INTEGER NOT NULL
 			);
 
 			SELECT AddGeometryColumn('advert_index', 'point', 4326, 'POINT', 2);

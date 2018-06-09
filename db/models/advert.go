@@ -25,15 +25,17 @@ type AdvertData struct {
 }
 
 type AdvertProperties struct {
-	Price *int64  `json:"price,omitempty"`
-	Lat   *string `json:"lat,omitempty"`
-	Lon   *string `json:"lon,omitempty"`
+	Price  *int64  `json:"price,omitempty"`
+	Vendor *int64  `json:"vendor,omitempty"`
+	Lat    *string `json:"lat,omitempty"`
+	Lon    *string `json:"lon,omitempty"`
 }
 
 type AdvertIndex struct {
 	tableName struct{} `sql:"advert_index",alias:"advert_index"`
 
-	Id    int64  `sql:"id"`
-	Price int64  `sql:"price"`
-	Point string `sql:"point"`
+	Id     int64  `sql:"id"`
+	Price  int64  `sql:"price"`
+	Vendor int64  `sql:"vendor"`
+	Point  string `sql:"point"`
 }

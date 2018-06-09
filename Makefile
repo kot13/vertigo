@@ -2,7 +2,7 @@ APP?=vertigo
 
 PORT?=8000
 LOG_LEVEL?=debug
-DATABASE?=postgres://pavelmurkin:Ghjcnj1987@localhost:5432/advertservice?sslmode=disable
+DATABASE?=postgres://user:password@localhost:5432/advertservice?sslmode=disable
 
 RELEASE?=0.0.1
 COMMIT?=$(shell git rev-parse --short HEAD)

@@ -14,12 +14,13 @@ type Property struct {
 }
 
 type SearchProperty struct {
-	Key      string
-	Type     string
-	Title    string
-	Example  string
-	Column   string
-	Operator string
+	Key       string
+	Type      string
+	Title     string
+	Example   string
+	Condition string
+	Column    string
+	Operator  string
 }
 
 type data struct {
@@ -98,28 +99,34 @@ func Docs(w http.ResponseWriter, r *http.Request) {
 
 	d.SearchProperty = []SearchProperty{
 		{
-			Key:      "priceMin",
-			Type:     "int64",
-			Title:    "Цена от",
-			Example:  "1",
-			Column:   "price",
-			Operator: ">=",
+			Key:     "priceMin",
+			Type:    "int64",
+			Title:   "Цена от",
+			Example: "1",
 		},
 		{
-			Key:      "priceMax",
-			Type:     "int64",
-			Title:    "Цена до",
-			Example:  "100000",
-			Column:   "price",
-			Operator: "<=",
+			Key:     "priceMax",
+			Type:    "int64",
+			Title:   "Цена до",
+			Example: "100000",
 		},
 		{
-			Key:      "location",
-			Type:     "location",
-			Title:    "Область поиска",
-			Example:  "{\"lat\": \"60.009354\", \"lon\": \"30.326351\", \"radius\": \"1000\"}",
-			Column:   "point",
-			Operator: "=",
+			Key:     "location[lat]",
+			Type:    "string",
+			Title:   "Область поиска (широта)",
+			Example: "60.009354",
+		},
+		{
+			Key:     "location[lon]",
+			Type:    "string",
+			Title:   "Область поиска (долгота)",
+			Example: "30.326351",
+		},
+		{
+			Key:     "location[radius]",
+			Type:    "string",
+			Title:   "Область поиска (радиус)",
+			Example: "1000",
 		},
 	}
 

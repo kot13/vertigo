@@ -5,6 +5,7 @@ import (
 
 	log "github.com/Sirupsen/logrus"
 
+	"fmt"
 	"github.com/go-pg/pg"
 	"github.com/go-pg/pg/orm"
 	"strconv"
@@ -21,8 +22,19 @@ func New(dsn string) *DB {
 		log.Fatal(err)
 	}
 
+	dbc := pg.Connect(pgOpt)
+
+	dbc.OnQueryProcessed(func(event *pg.QueryProcessedEvent) {
+		query, err := event.FormattedQuery()
+		if err != nil {
+			panic(err)
+		}
+
+		log.Debugf("%s %s", time.Since(event.StartTime), query)
+	})
+
 	return &DB{
-		pg.Connect(pgOpt),
+		dbc,
 	}
 }
 
@@ -81,16 +93,14 @@ func (db *DB) SetProperties(ID string, props models.AdvertProperties) (res orm.R
 }
 
 func (db *DB) AddToIndex(ID string, props models.AdvertProperties) error {
-	iid, err := strconv.Atoi(ID)
-	if err != nil {
-		return err
-	}
+	point := fmt.Sprintf("ST_GeomFromEWKT('SRID=4326;POINT(%s %s)')", *props.Lon, *props.Lat)
 
-	a := models.AdvertIndex{
-		Id:    int64(iid),
-		Price: props.Price,
-	}
-	return db.Insert(&a)
+	_, err := db.Model((*models.AdvertIndex)(nil)).Exec(`
+		INSERT INTO "advert_index" (id, price, point)
+		VALUES (?, ?, `+point+`)
+	`, ID, *props.Price)
+
+	return err
 }
 
 func (db *DB) RemoveFromIndex(ID string) error {

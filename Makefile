@@ -2,7 +2,7 @@ APP?=vertigo
 
 PORT?=8000
 LOG_LEVEL?=debug
-DATABASE?=postgres://user:password@localhost:5432/advertservice?sslmode=disable
+DATABASE?=postgres://pavelmurkin:Ghjcnj1987@localhost:5432/advertservice?sslmode=disable
 
 RELEASE?=0.0.1
 COMMIT?=$(shell git rev-parse --short HEAD)
@@ -26,7 +26,10 @@ dep:
 	
 gen:
 	# generate code under develop
-	
+
+migrate:
+	DATABASE=${DATABASE} go run ./migrations/*.go
+
 compile: 
 	CGO_ENABLED=0 GOOS=${GOOS} GOARCH=${GOARCH} go build ${LDFLAGS} -o ${APP}
 
@@ -47,12 +50,9 @@ rund: container
 		-e "PORT=${PORT}" -e "LOG_LEVEL=${LOG_LEVEL}" -e "DATABASE=${DATABASE}" \
 		$(APP):$(RELEASE)
 
-runLocal: clean gen dep
+runLocal: clean gen
 	go build ${LDFLAGS} -o ${APP}
 	PORT=${PORT} LOG_LEVEL=${LOG_LEVEL} DATABASE=${DATABASE} ./${APP}
 
 test: rund
 	PORT=${PORT} go test -v -race ./e2e/...
-
-docs: rund
-	open http://localhost:${PORT}/docs

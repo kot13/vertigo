@@ -18,6 +18,14 @@
 			"notests": true
 		},
 		{
+			"importpath": "github.com/go-pg/migrations",
+			"repository": "https://github.com/go-pg/migrations",
+			"vcs": "git",
+			"revision": "18fe16d6edcdd55a11d4aae4696ba6fa10d26c02",
+			"branch": "master",
+			"notests": true
+		},
+		{
 			"importpath": "github.com/go-pg/pg",
 			"repository": "https://github.com/go-pg/pg",
 			"vcs": "git",

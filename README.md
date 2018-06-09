@@ -5,7 +5,7 @@
 * Specification first
 * Code generation for boilerplate code
 * Auto-migration for DB
-* CQRS
+* Similar to CQRS
 
 ## Dependency
 * [Docker](https://www.docker.com/)
@@ -15,8 +15,18 @@
 
 ## Setup
 After install all dependencies, follow these simple steps: 
-1. Update specs in `./spec.yml`
-2. Update config for connect to DB 
+1. Create db and Postgis extension
+```
+$ sudo su - postgres
+$ psql
+$ CREATE DATABASE advertservice;
+$ \c advertservice
+$ CREATE EXTENSION postgis;
+```
+2. Update config for connect to DB and PORT
+```
+$ nano Makefile
+```
 3. Create DB scheme:
 ```
 $ make migrate
@@ -28,7 +38,8 @@ $ make run
 
 ## Documentations
 ```
-$ make docs
+$ make run
+$ open http://localhost:8000/docs
 ```
 
 ## Testing

@@ -1,9 +1,10 @@
 package handlers
 
 import (
+	"fmt"
 	"net/http"
 
-	"fmt"
+	"encoding/json"
 	"github.com/kot13/vertigo/app/container"
 	"github.com/kot13/vertigo/app/renderer"
 	"github.com/kot13/vertigo/db/models"
@@ -26,6 +27,19 @@ var props = []SearchProperty{
 		Column:   "price",
 		Operator: "<=",
 	},
+	{
+		Key:      "location",
+		Type:     "location",
+		Title:    "Область поиска",
+		Column:   "point",
+		Operator: "=",
+	},
+}
+
+type Location struct {
+	Lat    string `json:"lat"`
+	Lon    string `json:"lon"`
+	Radius string `json:"radius"`
 }
 
 func Search(w http.ResponseWriter, r *http.Request) {
@@ -36,7 +50,21 @@ func Search(w http.ResponseWriter, r *http.Request) {
 	for _, prop := range props {
 		value := values.Get(prop.Key)
 		if value != "" {
-			q.Where(fmt.Sprintf("advert_index.%s %s ?", prop.Column, prop.Operator), value)
+			switch prop.Type {
+			case "location":
+				var loc Location
+				err := json.Unmarshal([]byte(value), &loc)
+				if err != nil {
+					renderer.Error(err.Error(), w)
+					return
+				}
+
+				q.Where(
+					fmt.Sprintf(`ST_DWithin(advert_index.point::geography,ST_GeomFromEWKT('SRID=4326;POINT(%s %s)')::geography, %s)`,
+						loc.Lon, loc.Lat, loc.Radius))
+			default:
+				q.Where(fmt.Sprintf("advert_index.%s %s ?", prop.Column, prop.Operator), value)
+			}
 		}
 	}
 

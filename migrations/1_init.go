@@ -10,6 +10,8 @@ func init() {
 	migrations.Register(func(db migrations.DB) error {
 		fmt.Println("creating tables")
 		_, err := db.Exec(`
+			CREATE TYPE PROPERTY AS ENUM('vendor');
+
 			CREATE TABLE advert_data
 			(
 			  id         SERIAL                                 NOT NULL
@@ -35,11 +37,26 @@ func init() {
 			
 			CREATE UNIQUE INDEX advert_index_id_uindex
 			  ON advert_index (id);
+
+			CREATE TABLE dictionary
+			(
+				id			SERIAL								NOT NULL
+					CONSTRAINT dictionary_pkey
+					PRIMARY KEY,
+				property	PROPERTY							NOT NULL,
+				value		INT									NOT NULL,
+				data		VARCHAR								NOT NULL
+			);
 		`)
 		return err
 	}, func(db migrations.DB) error {
 		fmt.Println("dropping tables")
-		_, err := db.Exec(`DROP TABLE advert_data; DROP TABLE advert_index;`)
+		_, err := db.Exec(`
+			DROP TABLE advert_data; 
+			DROP TABLE advert_index; 
+			DROP TABLE dictionary; 
+			DROP TYPE PROPERTY;
+		`)
 		return err
 	})
 }

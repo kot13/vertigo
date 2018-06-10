@@ -1272,4 +1272,5 @@ select {
 pre code {
   max-height: 500px;
   overflow: auto;
+  width: 100%;
 }

@@ -42,6 +42,7 @@ func (app *App) Run() error {
 	http.HandleFunc("/advert/update", handlers.Update)
 	http.HandleFunc("/advert/publish", handlers.Publish)
 	http.HandleFunc("/advert/un-publish", handlers.UnPublish)
+	http.HandleFunc("/dictionary/get", handlers.GetDictionary)
 
 	return http.ListenAndServe(":"+container.GetCfg().Port, nil)
 }

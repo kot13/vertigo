@@ -2,12 +2,8 @@
 vertigo
 
 # dependencies
-/vendor
-
-# generated code
-/client
-/models
-/restapi
+vendor/**
+!vendor/manifest
 
 # idea project files
 .idea
